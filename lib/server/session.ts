@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 
-export type Session = { userId: string; email: string; name: string; plan: 'free'|'pro' };
+export type Session = { userId: string; email: string; name: string; plan: 'free'|'pro'; role: 'admin'|'user' };
 const COOKIE = "session";
 
 export function readSession(): Session | null {

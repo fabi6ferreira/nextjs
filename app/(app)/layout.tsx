@@ -1,16 +1,22 @@
 'use client';
 import Link from "next/link";
 import { LogOut } from "lucide-react";
+import BackButton from "@/components/back-button";
 import { usePathname, useRouter } from "next/navigation";
 
-const nav = [
+const navBase = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/notifications", label: "Notifications" },
   { href: "/chatbot", label: "Chatbot 24/7" },
   { href: "/upgrade", label: "Upgrade Plan" },
 ];
 
+import { useEffect, useState } from "react";
+
 export default function AppLayout({ children }: { children: React.ReactNode }) {
+  const [isAdmin, setIsAdmin] = useState(false);
+  useEffect(()=>{ fetch('/api/me').then(r=>r.json()).then(u=> setIsAdmin(u.role==='admin')).catch(()=>setIsAdmin(false)); },[]);
+  const nav = isAdmin ? [...navBase, { href: '/admin', label: 'Admin' }] : navBase;
   const pathname = usePathname();
   const router = useRouter();
 
@@ -53,7 +59,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </div>
           </aside>
 
-          <main className="flex-1">{children}</main>
+          <main className="flex-1"><div className="mb-4"><BackButton /></div>{children}</main>
         </div>
       </div>
     </div>

@@ -21,7 +21,8 @@ export default function LoginPage(){
   }
 
   return (
-    <div className="min-h-screen grid place-items-center p-6">
+    <div className="relative min-h-screen grid place-items-center p-6">
+      <div className="absolute left-4 top-4"><BackButton /></div>
       <form onSubmit={onSubmit} className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5">
         <h1 className="text-xl font-bold">Entrar</h1>
         <p className="mt-1 text-sm text-neutral-600">Usa <code>demo@demo.com</code> / <code>demo123</code> para testar.</p>

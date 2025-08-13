@@ -9,7 +9,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "Credenciais inválidas" }, { status: 401 });
   }
   const res = NextResponse.json({ ok: true });
-  const value = encodeSession({ userId: user.id, email: user.email, name: user.name, plan: user.plan });
+  const value = encodeSession({ userId: user.id, email: user.email, name: user.name, plan: user.plan, role: user.role });
   res.cookies.set("session", value, { httpOnly: true, sameSite: "lax", path: "/" });
   return res;
 }
