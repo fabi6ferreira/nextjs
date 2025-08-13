@@ -1,6 +1,6 @@
 import "./globals.css";
 
-export const metadata = { title: "Illimitatus — Dashboard", description: "Demo com auth + fluxos" };
+export const metadata = { title: "Illimitatus — Dashboard", description: "Next.js demo stackblitz-ready" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

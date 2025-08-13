@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
-import { getSession } from "@/lib/server/auth";
-import { getNotifications } from "@/lib/server/data";
+import { readSession } from "@/lib/server/session";
+import { db } from "@/lib/server/db";
 
 export async function GET() {
-  const s = getSession();
+  const s = readSession();
   if(!s) return NextResponse.json({ message: 'Unauthenticated' }, { status: 401 });
-  return NextResponse.json(getNotifications(s));
+  const list = db.getNotifications(s.userId).map(n => ({ id: n.id, title: n.title, time: n.createdAt, read: n.read }));
+  return NextResponse.json(list);
 }

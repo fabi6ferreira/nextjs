@@ -12,13 +12,11 @@ export default function ChatbotPage(){
     if(!text) return;
     setInput('');
     setMessages(m => [...m, {role:'user', text}]);
-    const res = await fetch('/api/chatbot', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ message: text })
-    });
-    const data = await res.json();
-    setMessages(m => [...m, {role:'bot', text: data.reply}]);
+    try{
+      const res = await fetch('/api/chatbot', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ message: text }) });
+      const data = await res.json();
+      setMessages(m => [...m, {role:'bot', text: data.reply}]);
+    }catch{ setMessages(m => [...m, {role:'bot', text: 'Erro a contactar o servidor.'}]); }
   }
 
   return (

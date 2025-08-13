@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
-import { getSession, setSession } from "@/lib/server/auth";
+import { readSession, encodeSession } from "@/lib/server/session";
+import { db } from "@/lib/server/db";
 
-export async function POST(req: Request) {
-  const s = getSession();
+export async function POST() {
+  const s = readSession();
   if(!s) return NextResponse.json({ message: 'Unauthenticated' }, { status: 401 });
-  const body = await req.json();
-  if(body.plan === 'pro'){ s.plan = 'pro'; setSession(s); }
-  return NextResponse.json({ ok: true, plan: s.plan });
+  db.upgradePlan(s.userId);
+  const updated = { ...s, plan: 'pro' as const };
+  const res = NextResponse.json({ ok: true, plan: 'pro' });
+  res.cookies.set("session", encodeSession(updated), { httpOnly: true, sameSite: "lax", path: "/" });
+  return res;
 }

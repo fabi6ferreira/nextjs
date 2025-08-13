@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { getSession } from "@/lib/server/auth";
+import { readSession } from "@/lib/server/session";
 
 export async function GET() {
-  const s = getSession();
+  const s = readSession();
   if(!s) return NextResponse.json({ message: 'Unauthenticated' }, { status: 401 });
   return NextResponse.json(s);
 }

@@ -1,7 +1,7 @@
-import { getSession } from "@/lib/server/auth";
+import { readSession } from "@/lib/server/session";
 import { redirect } from "next/navigation";
 
 export default function Home() {
-  const s = getSession();
+  const s = readSession();
   redirect(s ? "/dashboard" : "/login");
 }

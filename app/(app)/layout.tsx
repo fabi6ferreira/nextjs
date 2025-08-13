@@ -1,5 +1,7 @@
+'use client';
 import Link from "next/link";
 import { LogOut } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 
 const nav = [
   { href: "/dashboard", label: "Dashboard" },
@@ -9,6 +11,14 @@ const nav = [
 ];
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const router = useRouter();
+
+  async function logout(){
+    await fetch('/api/auth/logout', { method:'POST' });
+    router.replace('/login');
+  }
+
   return (
     <div className="min-h-screen">
       <div className="mx-auto max-w-7xl p-4 md:p-8">
@@ -27,19 +37,17 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 <div className="px-3 text-xs font-medium text-neutral-500">MENU</div>
                 <nav className="mt-3 space-y-1">
                   {nav.map((it) => (
-                    <Link key={it.href} href={it.href} className="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50">
+                    <Link key={it.href} href={it.href} className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium ${pathname===it.href? 'bg-cyan-600/10 text-cyan-700 ring-1 ring-cyan-600/20':'text-neutral-700 hover:bg-neutral-50'}`}>
                       <span>{it.label}</span>
                     </Link>
                   ))}
                 </nav>
 
                 <div className="mt-6 border-t pt-4">
-                  <form action="/api/auth/logout" method="post">
-                    <button className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50" type="submit">
-                      <span className="grid h-9 w-9 place-content-center rounded-lg bg-neutral-100"><LogOut className="h-4 w-4"/></span>
-                      <span>Logout</span>
-                    </button>
-                  </form>
+                  <button onClick={logout} className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-50" type="button">
+                    <span className="grid h-9 w-9 place-content-center rounded-lg bg-neutral-100"><LogOut className="h-4 w-4"/></span>
+                    <span>Logout</span>
+                  </button>
                 </div>
               </div>
             </div>

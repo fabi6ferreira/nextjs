@@ -3,14 +3,11 @@ import { useEffect, useState } from 'react';
 
 export default function UpgradePage(){
   const [plan, setPlan] = useState<'free'|'pro'>('free');
-
-  useEffect(()=>{
-    fetch('/api/me').then(r=>r.json()).then(u=> setPlan(u.plan));
-  },[]);
+  useEffect(()=>{ fetch('/api/me').then(r=>r.json()).then(u=> setPlan(u.plan)); },[]);
 
   async function upgrade(){
-    const res = await fetch('/api/plan', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ plan: 'pro' }) });
-    if(res.ok){ setPlan('pro'); alert('Plano atualizado para PRO ✅'); }
+    await fetch('/api/plan', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ plan: 'pro' }) });
+    setPlan('pro'); alert('Plano atualizado para PRO ✅');
   }
 
   return (

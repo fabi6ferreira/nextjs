@@ -1,28 +1,23 @@
 'use client';
-import { useState } from "react";
+import { useState } from 'react';
 
-export default function LoginPage() {
-  const [email, setEmail] = useState("demo@demo.com");
-  const [password, setPassword] = useState("demo123");
-  const [error, setError] = useState<string | null>(null);
+export default function LoginPage(){
+  const [email, setEmail] = useState('demo@demo.com');
+  const [password, setPassword] = useState('demo123');
+  const [error, setError] = useState<string|null>(null);
   const [loading, setLoading] = useState(false);
 
-  async function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent){
     e.preventDefault();
-    setLoading(true);
-    setError(null);
+    setLoading(true); setError(null);
     const res = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ email, password }),
     });
     setLoading(false);
-    if (res.ok) {
-      window.location.href = '/dashboard';
-    } else {
-      const data = await res.json().catch(()=>({message:'Credenciais inválidas'}));
-      setError(data.message);
-    }
+    if(res.ok){ window.location.href = '/dashboard'; }
+    else { const d = await res.json().catch(()=>({message:'Credenciais inválidas'})); setError(d.message); }
   }
 
   return (

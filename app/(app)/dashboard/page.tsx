@@ -30,22 +30,15 @@ function Icon({name}:{name:'settings'|'message'|'mail'}){
 
 export default function DashboardPage(){
   const [data, setData] = useState<Data | null>(null);
-
-  useEffect(()=>{
-    fetch('/api/dashboard').then(r=>r.json()).then(setData);
-  },[]);
-
+  useEffect(()=>{ fetch('/api/dashboard').then(r=>r.json()).then(setData); },[]);
   if(!data) return <div className="p-4">A carregar...</div>;
-
   const pct = Math.round((data.usedCredits / data.creditLimit) * 100);
 
   return (
     <div>
       <header className="px-1">
         <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">Hi, Illimitatus</h1>
-        <p className="mt-2 max-w-3xl text-neutral-600">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </p>
+        <p className="mt-2 max-w-3xl text-neutral-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
       </header>
 
       <section className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -53,10 +46,8 @@ export default function DashboardPage(){
           <div className="grid grid-cols-[1fr_auto] gap-4 items-center">
             <div>
               <div className="text-sm text-neutral-600">Used Credits:</div>
-              <div className="mt-1 text-4xl font-extrabold tracking-tight">{data.usedCredits.toLocaleString("de-DE")}</div>
-              <div className="mt-1 text-xs text-neutral-500">
-                You reached <span className="font-medium">{data.usedCredits.toLocaleString("de-DE")}</span>/{data.creditLimit.toLocaleString("de-DE")}
-              </div>
+              <div className="mt-1 text-4xl font-extrabold tracking-tight">{data.usedCredits.toLocaleString('de-DE')}</div>
+              <div className="mt-1 text-xs text-neutral-500">You reached <span className="font-medium">{data.usedCredits.toLocaleString('de-DE')}</span>/{data.creditLimit.toLocaleString('de-DE')}</div>
             </div>
             <ProgressRing value={pct} />
           </div>

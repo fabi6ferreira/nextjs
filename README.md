@@ -1,24 +1,22 @@
-# Illimitatus Dashboard (Next.js 14 App Router)
+# Illimitatus — StackBlitz Ready
 
-Demo completa com:
-- Auth (login/logout) por cookie de sessão
-- Dashboard com dados de API
-- Notifications
-- Chatbot (mock)
-- Upgrade de Plano
+Single Next.js app com:
+- Auth (login/logout) via cookie
+- Dashboard com dados de API (in-memory)
+- Notifications, Chatbot, Upgrade
+- **n8n opcional** via `N8N_CHATBOT_URL`
 
-## Credenciais de teste
-```
-email: demo@demo.com
-pass:  demo123
-```
-
-## Scripts
+## Correr
 ```
 npm install
 npm run dev
 ```
+Abrir http://localhost:3000 → `/login`
 
-## Notas
-- Este projeto está preparado para StackBlitz: usa Babel em vez de SWC nativo, versões fixas.
-- **Não é produção**: para produção usa NextAuth/Lucia + BD e cookies assinados.
+Credenciais: `demo@demo.com` / `demo123`
+
+## n8n (opcional)
+Cria um webhook no n8n (POST) e define:
+```
+N8N_CHATBOT_URL="https://.../webhook/<id>"
+```

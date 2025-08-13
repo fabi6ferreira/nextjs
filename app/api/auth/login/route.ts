@@ -1,13 +1,15 @@
 import { NextResponse } from "next/server";
+import { db } from "@/lib/server/db";
+import { encodeSession } from "@/lib/server/session";
 
 export async function POST(req: Request) {
   const { email, password } = await req.json();
-  if (email === "demo@demo.com" && password === "demo123") {
-    const session = { userId: "1", email, name: "Illimitatus", plan: "free" };
-    const res = NextResponse.json({ ok: true });
-    const value = Buffer.from(JSON.stringify(session), "utf-8").toString("base64");
-    res.cookies.set("session", value, { httpOnly: true, sameSite: "lax", path: "/" });
-    return res;
+  const user = db.findUserByEmail(email);
+  if(!user || user.passwordHash !== password) {
+    return NextResponse.json({ message: "Credenciais inválidas" }, { status: 401 });
   }
-  return NextResponse.json({ message: "Credenciais inválidas" }, { status: 401 });
+  const res = NextResponse.json({ ok: true });
+  const value = encodeSession({ userId: user.id, email: user.email, name: user.name, plan: user.plan });
+  res.cookies.set("session", value, { httpOnly: true, sameSite: "lax", path: "/" });
+  return res;
 }
